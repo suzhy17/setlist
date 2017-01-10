@@ -4,10 +4,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title>반값포토문자</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+	<title>세트리스트.kr</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<link rel="stylesheet" href="/ems-static/css/ppurio.css?ver=2" />
 	<script src="/webjars/jquery/3.1.1/dist/jquery.min.js"></script>
 	<script src="/ems-static/js/comm.js"></script>
 </head>

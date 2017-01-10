@@ -6,29 +6,27 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 /**
  * @author suzhy
  */
 @Embeddable
 @Access(AccessType.FIELD)
-public class ArtistNo implements Serializable {
+public class ArtistId implements Serializable {
 
 	private static final long serialVersionUID = 2919178127581144422L;
 
-	@Column(name = "artist_no", length = 10)
-	private Long value;
+	@Column(name = "artist_id", length = 10)
+	private String value;
 
-	protected ArtistNo() {
+	protected ArtistId() {
 	}
 
-	public ArtistNo(Long value) {
+	public ArtistId(String value) {
 		this.value = value;
 	}
 
-	public Long getArtistNo() {
+	public String getValue() {
 		return value;
 	}
 
@@ -39,7 +37,7 @@ public class ArtistNo implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		ArtistNo that = (ArtistNo) o;
+		ArtistId that = (ArtistId) o;
 
 		return value != null ? value.equals(that.value) : that.value == null;
 

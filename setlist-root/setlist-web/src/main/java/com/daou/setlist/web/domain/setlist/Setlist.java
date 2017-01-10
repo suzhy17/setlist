@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.daou.setlist.web.domain.artist.Artist;
-import com.daou.setlist.web.domain.artist.ArtistNo;
+import com.daou.setlist.web.domain.artist.ArtistId;
 
 /**
  * @author suzhy
@@ -26,7 +26,7 @@ public class Setlist {
 
 	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "artist_no")
-	private ArtistNo artistNo;
+	private ArtistId artistNo;
 
 	@Column(length = 100, nullable = false)
 	private String city;

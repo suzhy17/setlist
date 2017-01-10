@@ -1,14 +1,14 @@
 package com.daou.setlist.web.domain.artist;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,9 +21,8 @@ import com.daou.setlist.web.domain.setlist.Setlist;
 @Table(name = "tb_artist")
 public class Artist {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long artistNo;
+	@EmbeddedId
+	private ArtistId artistId;
 
 	@Column(length = 100, nullable = false)
 	private String artistNm;
@@ -34,20 +33,21 @@ public class Artist {
 	@Column(nullable = false)
 	private LocalDateTime regDt;
 
-	@OneToMany(mappedBy = "artistNo", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "artistNo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Setlist> setlists;
 
 	protected Artist() {
 	}
 	
-	public Artist(String artistNm, String nationality, LocalDateTime regDt) {
+	public Artist(ArtistId artistId, String artistNm, String nationality) {
+		this.artistId = artistId;
 		this.artistNm = artistNm;
 		this.nationality = nationality;
-		this.regDt = regDt;
+		this.regDt = LocalDateTime.now();
 	}
 
-	public Long getArtistNo() {
-		return artistNo;
+	public String getArtistId() {
+		return artistId.getValue();
 	}
 
 	public String getArtistNm() {
@@ -58,8 +58,8 @@ public class Artist {
 		return nationality;
 	}
 
-	public LocalDateTime getRegDt() {
-		return regDt;
+	public String getRegDt() {
+		return regDt.format(DateTimeFormatter.ISO_DATE);
 	}
 
 	public List<Setlist> getSetlists() {
