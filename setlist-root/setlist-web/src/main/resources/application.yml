@@ -1,0 +1,77 @@
+#========================================
+# 공통 Config
+#========================================
+
+spring:
+  mvc:
+    favicon:
+      enabled: false
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+    initialize: true
+    schema: classpath:/schema.sql
+#    data: classpath:/data.sql
+    tomcat:
+      max-active: 10
+      max-idle: 5
+      min-idle: 2
+      max-wait: -1
+      initial-size: 5
+      remove-abandoned: true
+      remove-abandoned-timeout: 60
+      validation-query: SELECT 1 FROM DUAL
+      test-on-return: true
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+  jpa:
+    database-platform:  org.hibernate.dialect.H2Dialect
+#    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      path: /myconsole
+      enabled: true
+      
+jasypt.encryptor.password: dlahxlzhs
+
+mybatis:
+  executor-type: REUSE
+  configuration:
+    cache-enabled: false
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+  type-handlers-package: org.apache.ibatis.type.LocalDateTimeTypeHandler
+  type-aliases-package: com.daou.setlist.common.model, com.daou.setlist.web.model
+  mapper-locations:
+    - "classpath:/com/daou/setlist/sqlmap/*.xml"
+    - "classpath:/com/daou/setlist/web/sqlmap/*.xml"
+
+logging:
+  level:
+    root: INFO
+    com.daou.setlist: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+  file: "/log/ems-api/service.log"
+  
+server:
+  port: 10080
+  error:
+    whitelabel:
+      enabled: false
+  session:
+    timeout: 36000
+  tomcat:
+    accesslog:
+      enabled: true
+      pattern: "%{yyyy-MM-dd HH:mm:ss}t %s %H %r"
+      directory: D:/log/ems-api/

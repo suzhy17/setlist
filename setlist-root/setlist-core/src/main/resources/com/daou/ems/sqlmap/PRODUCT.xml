@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+  템플릿 리스트 조회 쿼리는 포토에디터에서 튜닝이 될수 있으므로 포토에디터용, 어드민용 구분해서 관리한다.
+-->
+<mapper namespace="PRODUCT">
+
+	<!-- 템플릿 리스트 조회 (포토에디터용) -->
+
+	<sql id="whereProductList1">
+	      AND   seq_no = #{imageSize}
+	      AND   use_yn = 'Y'
+	</sql>
+
+	<sql id="whereProductList2">
+		AND   P.file_key > 0
+		<if test="search != null">
+			<if test="search.searchType == 'tagNm' and search.searchKeyword != null and search.searchKeyword != ''">
+				AND   ( P.content_nm LIKE CONCAT('%', #{search.searchKeyword}, '%')
+				        OR  P.product_no IN ( SELECT product_no FROM ems_product_tag_map WHERE TAG_NM = #{search.searchKeyword} )
+				      )
+			</if>
+			<if test="search.searchStDt != null and search.searchStDt != ''">
+				AND   DATE_FORMAT(P.reg_dt, '%Y%m%d') <![CDATA[ >= ]]> #{search.searchStDt}
+			</if>
+			<if test="search.searchEnDt != null and search.searchEnDt != ''">
+				AND   DATE_FORMAT(P.reg_dt, '%Y%m%d') <![CDATA[ <= ]]> #{search.searchEnDt}
+			</if>
+		</if>
+		<if test="productTypeCd != null and productTypeCd != ''">
+		AND   P.product_type_cd = #{productTypeCd}
+		</if>
+		<if test="categoryCd != null and categoryCd != 'ALL' and categoryCd != 'BEST'">
+		AND   P.category_cd = #{categoryCd}
+		</if>
+		<if test="categoryCd == 'BEST'">
+		AND   B.best_no > 0
+		AND   B.best_dt <![CDATA[ <= ]]> NOW()
+		</if>
+		<if test="userMadeYn != 'Y'.toString()">
+		AND   P.maker_cd = '2004S'
+		AND   P.sale_yn = 'Y'
+		AND   P.use_yn = 'Y'
+		</if>
+		<if test="userMadeYn == 'Y'.toString()">
+		AND   P.reg_user_no = #{userNo}
+		AND   P.use_yn = 'Y'
+		AND   P.maker_cd = '2004P'
+		AND   P.product_type_cd = '3001M'
+		AND   P.save_yn = 'Y'
+		</if>
+	</sql>
+
+	<select id="countProductList" parameterType="map" resultType="long">
+		SELECT COUNT(*)
+		FROM  ems_product P
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		<include refid="whereProductList1" />
+		    ) F
+		   ON P.file_key = F.file_key
+		LEFT JOIN ems_product_best B
+		   ON P.product_no = B.product_no
+		WHERE 1=1
+		<include refid="whereProductList2" />
+	</select>
+
+	<select id="selectProductList" parameterType="map" resultType="product">
+		SELECT
+		      P.product_no
+		    , P.content_nm
+		    , CONCAT(F.file_path, '/', F.saved_file_nm) AS IMG_PATH
+		    , CONCAT(F2.file_path, '/', F2.saved_file_nm) AS THUMB_IMG_PATH
+		    , P.sale_yn
+		    , P.send_cnt
+		    , P.tot_send_cnt
+		    , P.read_cnt
+		    , P.reg_dt
+		    , B.best_no
+		    , B.best_dt
+		    , P.category_cd
+		    , (SELECT category_nm FROM ems_category WHERE category_cd = P.category_cd ) category_nm
+		FROM  ems_product P
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		<include refid="whereProductList1" />
+		    ) F
+		   ON P.file_key = F.file_key
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		      AND   seq_no = 6
+		      AND   use_yn = 'Y'
+		    ) F2
+		   ON P.file_key = F2.file_key
+		LEFT JOIN ems_product_best B
+		   ON P.product_no = B.product_no
+		WHERE 1=1
+		<include refid="whereProductList2" />
+		ORDER BY
+		<if test="sort != null">
+		    P.${sort}
+		</if>
+		<if test="categoryCd != 'BEST'">
+		    <if test="sort == null">
+		        P.reg_dt DESC
+		    </if>
+		</if>
+		<if test="categoryCd == 'BEST'">
+		    <if test="sort == null">
+		        B.best_dt DESC
+		    </if>
+		</if>
+		LIMIT #{pageable.offset}, #{pageable.pageSize}
+	</select>
+
+
+	<!-- 템플릿 리스트 조회 (어드민용) -->
+
+	<sql id="whereProductListForAdmin1">
+	      AND   seq_no = #{imageSize}
+	      AND   use_yn = 'Y'
+	</sql>
+
+	<sql id="whereProductListForAdmin2">
+		AND   P.file_key > 0
+		<if test="search != null">
+			<if test="search.searchType == 'tagNm' and search.searchKeyword != null and search.searchKeyword != ''">
+				AND   ( P.content_nm LIKE CONCAT('%', #{search.searchKeyword}, '%')
+				        OR  P.product_no IN ( SELECT product_no FROM ems_product_tag_map WHERE TAG_NM = #{search.searchKeyword} )
+				      )
+			</if>
+			<if test="search.searchStDt != null and search.searchStDt != ''">
+				AND   DATE_FORMAT(P.reg_dt, '%Y%m%d') <![CDATA[ >= ]]> #{search.searchStDt}
+			</if>
+			<if test="search.searchEnDt != null and search.searchEnDt != ''">
+				AND   DATE_FORMAT(P.reg_dt, '%Y%m%d') <![CDATA[ <= ]]> #{search.searchEnDt}
+			</if>
+		</if>
+		<if test="productTypeCd != null and productTypeCd != ''">
+		AND   P.product_type_cd = #{productTypeCd}
+		</if>
+		<if test="categoryCd != null and categoryCd != 'ALL' and categoryCd != 'BEST'">
+		AND   P.category_cd = #{categoryCd}
+		</if>
+		<if test="categoryCd == 'BEST'">
+		AND   B.best_no > 0
+		</if>
+		AND   P.maker_cd = '2004S'
+		AND   P.use_yn = 'Y'
+	</sql>
+
+	<select id="countProductListForAdmin" parameterType="map" resultType="long">
+		SELECT COUNT(*)
+		FROM  ems_product P
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		<include refid="whereProductListForAdmin1" />
+		    ) F
+		   ON P.file_key = F.file_key
+		LEFT JOIN ems_product_best B
+		   ON P.product_no = B.product_no
+		WHERE 1=1
+		<include refid="whereProductListForAdmin2" />
+	</select>
+
+	<select id="selectProductListForAdmin" parameterType="map" resultType="product">
+		SELECT
+		      P.product_no
+		    , P.content_nm
+		    , CONCAT(F.file_path, '/', F.saved_file_nm) AS IMG_PATH
+		    , CONCAT(F2.file_path, '/', F2.saved_file_nm) AS THUMB_IMG_PATH
+		    , P.sale_yn
+		    , P.send_cnt
+		    , P.tot_send_cnt
+		    , P.read_cnt
+		    , P.reg_dt
+		    , B.best_no
+		    , B.best_dt
+		    , P.category_cd
+		    , (SELECT category_nm FROM ems_category WHERE category_cd = P.category_cd ) category_nm
+		FROM  ems_product P
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		<include refid="whereProductListForAdmin1" />
+		    ) F
+		   ON P.file_key = F.file_key
+		LEFT JOIN
+		    ( SELECT file_key, file_path, saved_file_nm, seq_no
+		      FROM  ems_product_file
+		      WHERE 1=1
+		      AND   seq_no = 6
+		      AND   use_yn = 'Y'
+		    ) F2
+		   ON P.file_key = F2.file_key
+		LEFT JOIN ems_product_best B
+		   ON P.product_no = B.product_no
+		WHERE 1=1
+		<include refid="whereProductListForAdmin2" />
+		ORDER BY
+		<if test="sort != null">
+		    P.${sort}
+		</if>
+		<if test="categoryCd != 'BEST'">
+		    <if test="sort == null">
+		        P.reg_dt DESC
+		    </if>
+		</if>
+		<if test="categoryCd == 'BEST'">
+		    <if test="sort == null">
+		        B.best_dt DESC
+		    </if>
+		</if>
+		LIMIT #{pageable.offset}, #{pageable.pageSize}
+	</select>
+
+
+	
+	<!-- 카테고리에 속한 이모티콘 갯수 조회 -->
+	<select id="countProductListByCategoryCds" resultType="integer">
+		SELECT COUNT(*)
+		FROM  ems_product P
+		WHERE 1=1
+		AND   category_cd IN
+		<foreach item="item" index="index" collection="categoryCds" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<!-- 베스트 리스트 조회 -->
+	<select id="selectProductBestList" parameterType="map" resultType="productBest">
+		SELECT *
+		FROM  ems_product_best
+		WHERE category_type_cd = #{categoryTypeCd}
+		AND   product_no IN
+		<foreach item="item" index="index" collection="productNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<!-- 베스트 등록 -->
+	<insert id="insertProductBest" parameterType="productBest">
+		INSERT INTO ems_product_best (
+		      product_no
+		    , best_dt
+		    , category_type_cd
+		    , reg_dt
+		) VALUES (
+		      #{productNo}
+		    , #{bestDt}
+		    , #{categoryTypeCd}
+		    , #{regDt}
+		)
+		<selectKey keyProperty="bestNo" keyColumn="best_no" resultType="integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 베스트 앞으로보내기 -->
+	<update id="updateProductBest" parameterType="productBest">
+		UPDATE ems_product_best
+		SET   best_dt = #{bestDt}
+		WHERE best_no = #{bestNo}
+		AND   category_type_cd = #{categoryTypeCd}
+	</update>
+	
+	<!-- 베스트 삭제 -->
+	<delete id="deleteProductBest" parameterType="map">
+		DELETE FROM ems_product_best
+		WHERE best_no IN
+		<foreach item="item" index="index" collection="bestNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 이모티콘 삭제 -->
+	<update id="deleteProduct" parameterType="map">
+		UPDATE ems_product
+		SET   use_yn = 'N'
+		    , del_dt = DATE_ADD(CURDATE(), INTERVAL 2 DAY)
+		WHERE maker_cd = '2004S'
+		AND   product_no IN
+		<foreach item="item" index="index" collection="productNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 사용안함 : 카테고리에 속한 이모티콘 삭제 -->
+	<update id="deleteProductByCategoryCd" parameterType="map">
+		UPDATE ems_product
+		SET   use_yn = 'N'
+		    , del_dt = DATE_ADD(CURDATE(), INTERVAL 2 DAY)
+		WHERE category_cd = #{categoryCd}
+	</update>
+	
+	<!-- 카테고리에 속한 상품번호 조회 -->
+	<select id="selectProductNoListByCategoryCd" resultType="integer">
+		SELECT product_no
+		FROM  ems_product
+		WHERE category_cd = #{categoryCd}
+	</select>
+	
+	<!-- 사용자 템플릿 저장 -->
+	<update id="updateProductForUserMadeSave" parameterType="map">
+		UPDATE ems_product
+		SET   save_yn = 'Y'
+		WHERE product_no = #{productNo}
+	</update>
+	
+	<!-- 사용자 템플릿 삭제 (1건) -->
+	<update id="updateProductForUserMadeDelete" parameterType="map">
+		UPDATE ems_product
+		SET   use_yn = 'N'
+		    , del_dt = DATE_ADD(CURDATE(), INTERVAL 2 DAY)
+		WHERE product_no = #{productNo}
+	</update>
+	
+	<!-- 사용자 템플릿 삭제 (여러건) -->
+	<update id="updateProductForUserMadeDeleteMulti" parameterType="map">
+		UPDATE ems_product
+		SET   use_yn = 'N'
+		    , del_dt = DATE_ADD(CURDATE(), INTERVAL 2 DAY)
+		WHERE 1=1
+		<if test="userNo != null and userNo != ''">
+		AND   reg_user_no = #{userNo}
+		</if>
+		AND   product_no IN
+		<foreach item="item" index="index" collection="productNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 이모티콘 카테고리 이동 -->
+	<update id="updateProductForCategoryMove" parameterType="map">
+		UPDATE ems_product
+		SET   category_cd = #{categoryCd}
+		WHERE product_no IN
+		<foreach item="item" index="index" collection="productNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 카테고리 리스트 (포토에디터) -->
+	<select id="selectCategoryList" parameterType="map" resultType="category">
+		SELECT
+		      category_cd
+		    , category_nm 
+		FROM  ems_category
+		WHERE use_yn = 'Y'
+		AND   category_type_cd = #{categoryTypeCd}
+		<if test="categoryGroupCd != null and categoryGroupCd != ''">
+		AND   category_group_cd = #{categoryGroupCd}
+		</if>
+		<if test="categoryCd != null and categoryCd != ''">
+		AND   category_cd = #{categoryCd}
+		</if>
+		ORDER BY sort_order ASC
+	</select>
+
+	<select id="selectProductFileKey" parameterType="map" resultType="integer">
+		SELECT 
+		      P.file_key
+		FROM  ems_product P
+		WHERE P.product_no = #{productNo}
+	</select>
+	
+	<insert id="insertProduct" parameterType="product">
+		INSERT INTO ems_product (
+		      category_cd
+		    , content_nm
+		    , file_key
+		    , maker_cd
+		    , mod_dt
+		    , mod_user_no
+		    , origin_product_no
+		    , product_type_cd
+		    , public_yn
+		    , read_cnt
+		    , reg_dt
+		    , reg_user_no
+		    , sale_yn
+		    , save_yn
+		    , send_cnt
+		    , send_content_type_cd
+		    , template_source
+		    , use_yn
+		) VALUES (
+		      #{categoryCd}
+		    , #{contentNm}
+		    , #{fileKey}
+		    , #{makerCd}
+		    , NOW()
+		    , #{modUserNo}
+		    , #{originProductNo}
+		    , #{productTypeCd}
+		    , #{publicYn}
+		    , #{readCnt}
+		    , NOW()
+		    , #{regUserNo}
+		    , #{saleYn}
+		    , #{saveYn}
+		    , #{sendCnt}
+		    , #{sendContentTypeCd}
+		    , #{templateSource}
+		    , #{useYn}
+		)
+		<selectKey keyProperty="productNo" keyColumn="product_no" resultType="integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 템플릿 정보 업데이트 -->
+	<update id="updateProduct" parameterType="product">
+		UPDATE ems_product
+		SET   category_cd          = #{categoryCd}
+		    , content_nm           = #{contentNm}
+		    , file_key             = #{fileKey}
+		    , maker_cd             = #{makerCd}
+		    , origin_product_no    = #{originProductNo}
+		    , product_type_cd      = #{productTypeCd}
+		    , public_yn            = #{publicYn}
+		    , sale_yn              = #{saleYn}
+		    , save_yn              = #{saveYn}
+		    , send_content_type_cd = #{sendContentTypeCd}
+		    , template_source      = #{templateSource}
+		    , use_yn               = #{useYn}
+		    , mod_user_no          = #{modUserNo}
+		    , mod_dt               = NOW()
+		WHERE product_no = #{productNo}
+	</update>
+	
+	<!-- 템플릿 정보의 파일키 업데이트 -->
+	<update id="updateProductForFileKey" parameterType="product">
+		UPDATE ems_product
+		SET   file_key = #{fileKey}
+		WHERE product_no = #{productNo}
+	</update>
+
+	<!-- 전송건수 업데이트 -->	
+	<update id="updateProductForSendCnt">
+		UPDATE ems_product
+		SET   send_cnt     = IFNULL(send_cnt, 0) + 1
+		    , tot_send_cnt = IFNULL(tot_send_cnt, 0) + #{totSendCnt}
+		WHERE product_no = #{productNo}
+	</update>
+	
+	<!-- 템플릿 원본 productNo 조회 -->
+	<select id="selectProductForOriginProductNoByProductNo" parameterType="integer" resultType="integer">
+		SELECT 
+		      P.origin_product_no
+		FROM  ems_product P
+		WHERE P.product_no = #{value}
+	</select>
+	
+	<!-- 템플릿 정보 조회 -->
+	<select id="selectProduct" parameterType="map" resultType="product">
+		SELECT 
+		      P.product_no
+			, P.origin_product_no
+			, P.product_type_cd
+			, P.template_source
+			, P.maker_cd
+			, F.seq_no
+			, CONCAT(F.file_path, '/', F.saved_file_nm) AS IMG_PATH
+		FROM  ems_product P
+		INNER JOIN ems_product_file F  ON  P.file_key = F.file_key
+		WHERE P.product_no = #{productNo}
+		AND   F.seq_no = #{fileSize}
+		AND   F.use_yn = 'Y'
+	</select>
+
+	<!-- 템플릿 정보 상세 조회 (수정 등록용) -->
+	<select id="selectProductDetail" parameterType="integer" resultType="product">
+		SELECT 
+		      P.*
+		FROM  ems_product P
+		WHERE P.product_no = #{value}
+	</select>
+	
+	<!-- 파일 정보 등록 -->
+	<insert id="insertProductFile" parameterType="productFile">
+		INSERT INTO ems_product_file (
+		      file_key
+		    , seq_no
+		    , file_ext
+		    , file_path
+		    , file_size
+		    , origin_file_nm
+		    , reg_dt
+		    , reg_user_no
+		    , saved_file_nm
+		    , size_code
+		    , use_yn
+		) VALUES (
+		      #{fileKey}
+		    , #{seqNo}
+		    , #{fileExt}
+		    , #{filePath}
+		    , #{fileSize}
+		    , #{originFileNm}
+		    , NOW()
+		    , #{regUserNo}
+		    , #{savedFileNm}
+		    , #{sizeCode}
+		    , #{useYn}
+		)
+		<selectKey keyProperty="fileNo" keyColumn="file_no" resultType="integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 추가이미지의 파일키 업데이트 -->
+	<update id="updateProductFileForFileKey" parameterType="product">
+		UPDATE ems_product_file
+		SET   file_key = #{fileKey}
+		WHERE file_no IN
+		<foreach item="item" index="index" collection="fileNos" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 파일 정보 삭제 -->
+	<delete id="deleteProductFile" parameterType="integer">
+		DELETE FROM ems_product_file
+		WHERE file_no = #{value}
+	</delete>
+	
+	<!-- 파일 정보 조회 -->
+	<select id="selectProductFile" parameterType="integer" resultType="productFile">
+		SELECT *
+		FROM  ems_product_file
+		WHERE file_no = #{value}
+	</select>
+	
+	<!-- 파일 정보 리스트 조회 -->
+	<select id="selectProductFileList" parameterType="map" resultType="productFile">
+		SELECT *
+		FROM  ems_product_file
+		WHERE file_key = #{fileKey}
+	</select>
+	
+	<!-- 태그 등록 -->
+	<insert id="insertTag" parameterType="map">
+		INSERT INTO ems_tag (
+		      tag_nm
+		    , tag_cnt
+		) VALUES (
+		      #{tagNm}
+		    , 1
+		)
+		ON DUPLICATE KEY UPDATE
+		      tag_nm = #{tagNm}
+		    , tag_cnt = tag_cnt + 1
+	</insert>
+	
+	<!-- 태그 매핑 정보 등록 -->
+	<insert id="insertProductTagMap" parameterType="map">
+		INSERT IGNORE INTO ems_product_tag_map (
+		      tag_nm
+		    , product_no
+		) VALUES (
+		      #{tagNm}
+		    , #{productNo}
+		)
+	</insert>
+	
+	<!-- 태그 매핑 정보 삭제 -->
+	<delete id="deleteProductTagMap" parameterType="map">
+		DELETE FROM ems_product_tag_map
+		WHERE product_no = #{productNo}
+	</delete>
+</mapper>

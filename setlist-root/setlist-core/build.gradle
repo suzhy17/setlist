@@ -1,0 +1,25 @@
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+jar {
+	baseName = 'setlist-core'
+	version = '1.0.0-SNAPSHOT'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-configuration-processor')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile("org.springframework.boot:spring-boot-starter-cache")
+	compile('net.sf.ehcache:ehcache')
+	runtime('com.h2database:h2')
+
+	compile('commons-codec:commons-codec')
+
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1')
+	compile('org.mybatis:mybatis-typehandlers-jsr310:1.0.0')
+	
+	compile group: 'com.google.guava', name: 'guava', version: '20.0'
+	
+	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

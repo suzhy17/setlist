@@ -1,0 +1,41 @@
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+jar {
+	baseName = 'setlist-web'
+	version = '1.0.0-SNAPSHOT'
+
+	exclude "config.properties"
+}
+
+dependencies {
+	compile project(':setlist-core')
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile("org.springframework.boot:spring-boot-starter-cache")
+	compile('net.sf.ehcache:ehcache')
+	runtime('com.h2database:h2')
+
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper') 
+	compile('javax.servlet:jstl')
+	compile('org.apache.tiles:tiles-jsp:3.0.5')
+	compile('net.sargue:java-time-jsptags:1.1.2')
+	compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.9')
+	compile('commons-codec:commons-codec')
+
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.1.1')
+	compile('org.mybatis:mybatis-typehandlers-jsr310:1.0.0')
+	
+	// WEB
+	compile('org.webjars:bootstrap:3.3.7')
+	compile('org.webjars:jquery-ui:1.12.1')
+	compile('org.webjars:font-awesome:4.7.0')
+	compile('org.webjars:jquery-form:3.51')
+	compile('org.webjars:jquery-blockui:2.65')
+	
+	testCompile('org.springframework.boot:spring-boot-devtools')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+}
