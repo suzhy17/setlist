@@ -25,7 +25,7 @@ public class Artist {
 	private ArtistId artistId;
 
 	@Column(length = 100, nullable = false)
-	private String artistNm;
+	private String artistName;
 
 	@Column(length = 100, nullable = false)
 	private String nationality;
@@ -39,19 +39,19 @@ public class Artist {
 	protected Artist() {
 	}
 	
-	public Artist(ArtistId artistId, String artistNm, String nationality) {
-		this.artistId = artistId;
-		this.artistNm = artistNm;
+	public Artist(String artistId, String artistName, String nationality, LocalDateTime regDt) {
+		this.artistId = new ArtistId(artistId);
+		this.artistName = artistName;
 		this.nationality = nationality;
-		this.regDt = LocalDateTime.now();
+		this.regDt = regDt;
 	}
 
 	public String getArtistId() {
 		return artistId.getValue();
 	}
 
-	public String getArtistNm() {
-		return artistNm;
+	public String getArtistName() {
+		return artistName;
 	}
 
 	public String getNationality() {
@@ -64,5 +64,16 @@ public class Artist {
 
 	public List<Setlist> getSetlists() {
 		return setlists;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer string = new StringBuffer();
+		string
+			.append("artistId=").append(artistId)
+			.append(", artistName=").append(artistName)
+			.append(", nationality=").append(nationality)
+			.append(", regDt=").append(regDt);
+		return string.toString();
 	}
 }

@@ -9,6 +9,10 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+  http:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driverClassName: org.h2.Driver
@@ -37,8 +41,8 @@ spring:
       ddl-auto: create-drop
   h2:
     console:
-      path: /myconsole
       enabled: true
+      path: /myconsole
       
 jasypt.encryptor.password: dlahxlzhs
 
@@ -61,7 +65,7 @@ logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
-  file: "/log/ems-api/service.log"
+  file: "/log/setlist-web/service.log"
   
 server:
   port: 10080
@@ -74,4 +78,4 @@ server:
     accesslog:
       enabled: true
       pattern: "%{yyyy-MM-dd HH:mm:ss}t %s %H %r"
-      directory: D:/log/ems-api/
+      directory: D:/log/setlist-web/

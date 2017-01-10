@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.daou.setlist.web.domain.artist.Artist;
-import com.daou.setlist.web.domain.artist.ArtistId;
 import com.daou.setlist.web.domain.artist.ArtistRepository;
 
 @Controller
@@ -34,8 +33,10 @@ public class TestController {
 	@ResponseBody
 	public List<Artist> test() {
 		
-		Artist artist = new Artist(new ArtistId("muse"), "Muse", "UK");
-		artistRepository.save(artist);
+		Artist artist1 = new Artist("muse", "Muse", "UK", LocalDateTime.now());
+		artistRepository.save(artist1);
+		Artist artist2 = new Artist("metallica", "Metallica", "US", LocalDateTime.now());
+		artistRepository.save(artist2);
 		
 		List<Artist> artistList = artistRepository.findAll();
 		log.debug("SELECT TEST = {}", artistList.size());
