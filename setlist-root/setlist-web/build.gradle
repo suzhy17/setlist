@@ -33,6 +33,7 @@ dependencies {
 	compile('org.webjars:jquery-form:3.51')
 	compile('org.webjars:jquery-blockui:2.65')
 	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.boot:spring-boot-devtools')
 }
 

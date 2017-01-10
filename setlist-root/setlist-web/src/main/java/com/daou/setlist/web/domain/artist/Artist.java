@@ -33,7 +33,7 @@ public class Artist {
 	@Column(nullable = false)
 	private LocalDateTime regDt;
 
-	@OneToMany(mappedBy = "artistNo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "artistId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Setlist> setlists;
 
 	protected Artist() {

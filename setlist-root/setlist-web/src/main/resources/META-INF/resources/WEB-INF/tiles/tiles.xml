@@ -7,9 +7,6 @@
 	<definition name="login" template="/WEB-INF/jsp/login.jsp">
 	</definition>
 
-	<definition name="error" template="/WEB-INF/jsp/error.jsp">
-	</definition>
-
 	<definition name="*" extends="template-default">
 		<put-attribute name="content" value="/WEB-INF/jsp/{1}.jsp" />
 	</definition>

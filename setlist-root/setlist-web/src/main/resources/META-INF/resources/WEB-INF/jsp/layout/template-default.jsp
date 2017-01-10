@@ -4,12 +4,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="initial-scale=0.7, user-scalable=yes, maximum-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
 	<title>세트리스트.kr</title>
 	
@@ -24,6 +23,7 @@
 
 	<!-- jQuery-UI -->
 	<link rel="stylesheet" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css" />
+	<link rel="stylesheet" href="/static/css/jumbotron-narrow.css" />
 
 	<script src="/webjars/jquery/1.12.0/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>

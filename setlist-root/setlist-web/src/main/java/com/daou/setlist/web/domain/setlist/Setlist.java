@@ -1,8 +1,9 @@
 package com.daou.setlist.web.domain.setlist;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -21,20 +22,24 @@ import com.daou.setlist.web.domain.artist.ArtistId;
 public class Setlist {
 
 	@Id
-	@Column(length = 10)
 	private Long setlistNo;
 
 	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "artist_no")
-	private ArtistId artistNo;
+	@JoinColumn(name = "artist_id")
+	private ArtistId artistId;
 
-	@Column(length = 100, nullable = false)
-	private String city;
+	@Embedded
+	private Tour tour;
+	
+	@Column
+	private LocalDate eventDate;
 
-	@Column(length = 100, nullable = false)
-	private String tourName;
-
-	@Column(nullable = false)
-	private LocalDateTime regDt;
-
+	protected Setlist() {
+	}
+	
+	public Setlist(ArtistId artistId, Tour tour, LocalDate eventDate) {
+		this.artistId = artistId;
+		this.tour = tour;
+		this.eventDate = eventDate;
+	}
 }

@@ -23,6 +23,9 @@ public class ArtistId implements Serializable {
 	}
 
 	public ArtistId(String value) {
+		if (value == null || value.length() == 0) {
+			throw new IllegalArgumentException("파라미터 값 에러");
+		}
 		this.value = value;
 	}
 
