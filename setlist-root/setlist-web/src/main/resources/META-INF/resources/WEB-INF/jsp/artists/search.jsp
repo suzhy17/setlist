@@ -2,15 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
 <div class="row marketing">
-
-	<div id="idxNmArea" class="btn-group btn-group-sm" role="group" aria-label="INDEX">
-	<c:forEach var="item" items="${idxNms}">
-		<button type="button" class="btn btn-default ${param.idxNm == item ? 'active' : ''}" value="${item}">${item}</button>
-	</c:forEach>
-	</div>
-</div>	
-
-<div class="row marketing">
 	<div class="list-group">
 	<c:forEach var="item" varStatus="status" items="${artists}">
 		<button type="button" name="artistGo" class="list-group-item" value="${item.artistId}">

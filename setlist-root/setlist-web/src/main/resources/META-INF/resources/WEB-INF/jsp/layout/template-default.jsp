@@ -46,7 +46,7 @@
 		<div class="col-lg-12">
 			<form action="/search">
 				<div class="input-group">
-					<input type="text" name="keyword" class="form-control" placeholder="아티스트 검색">
+					<input type="text" name="keyword" class="form-control" placeholder="아티스트 검색" value="${param.keyword}" />
 					<span class="input-group-btn">
 						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 					</span>

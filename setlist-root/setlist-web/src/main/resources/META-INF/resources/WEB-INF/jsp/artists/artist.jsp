@@ -25,7 +25,7 @@
 					<td>${item.tour.tourName}</td>
 					<td>${item.tour.venue}</td>
 					<td>${item.eventDate}</td>
-					<td><button type="button" name="tracksGo" class="btn btn-default btn-sm" data-artist-id="${artist.artistId}" data-setlist-no="${item.setlistNo}">곡정보</button></td>
+					<td><button type="button" name="tracksGo" class="btn btn-default btn-sm" data-artist-id="${artist.artistId}" data-setlist-no="${item.setlistNo}">Setlist</button></td>
 				</tr>
 				</c:forEach>
 			</tbody>
