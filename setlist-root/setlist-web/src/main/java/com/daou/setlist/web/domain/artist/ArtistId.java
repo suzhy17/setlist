@@ -16,7 +16,7 @@ public class ArtistId implements Serializable {
 
 	private static final long serialVersionUID = 2919178127581144422L;
 
-	@Column(name = "artist_id", length = 10)
+	@Column(name = "artist_id", length = 100)
 	private String value;
 
 	protected ArtistId() {

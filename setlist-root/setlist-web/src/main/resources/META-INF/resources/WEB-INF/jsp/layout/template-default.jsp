@@ -29,6 +29,39 @@
 	<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="container">
+	<div class="header clearfix">
+		<nav>
+			<ul class="nav nav-pills pull-right">
+				<li role="presentation" class="active"><a href="/">Home</a></li>
+				<li role="presentation"><a href="/artists">Artists</a></li>
+				<li role="presentation"><a href="/setlists">Setlists</a></li>
+				<li role="presentation"><a href="/statistics">Statistics</a></li>
+				<li role="presentation"><a href="/statistics"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Setlist</a></li>
+				<li role="presentation"><a href="/statistics"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
+			</ul>
+		</nav>
+		<h3 class="text-muted">세트리스트.kr</h3>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<form action="/search">
+				<div class="input-group">
+					<input type="text" name="keyword" class="form-control" placeholder="아티스트 검색">
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					</span>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<tiles:insertAttribute name="content" />
+
+	<footer class="footer">
+		<p>&copy; 2016 Company, Inc.</p>
+	</footer>
+</div>
 </body>
 </html>

@@ -1,50 +1,26 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
-					<li role="presentation" class="active"><a href="#">Home</a></li>
-					<li role="presentation"><a href="#">About</a></li>
-					<li role="presentation"><a href="#">Contact</a></li>
-				</ul>
-			</nav>
-			<h3 class="text-muted">세트리스트.kr</h3>
-		</div>
+<div class="row marketing">
+	<div class="col-lg-6">
+		<h4>Subheading</h4>
+		<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
-		<div class="jumbotron">
-			<h1>Jumbotron heading</h1>
-			<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-			<p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-		</div>
+		<h4>Subheading</h4>
+		<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 
-		<div class="row marketing">
-		<div class="col-lg-6">
-			<h4>Subheading</h4>
-			<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+		<h4>Subheading</h4>
+		<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+	</div>
 
-			<h4>Subheading</h4>
-			<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+	<div class="col-lg-6">
+		<h4>Subheading</h4>
+		<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
-			<h4>Subheading</h4>
-			<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-		</div>
+		<h4>Subheading</h4>
+		<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 
-		<div class="col-lg-6">
-			<h4>Subheading</h4>
-			<p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-			<h4>Subheading</h4>
-			<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-			<h4>Subheading</h4>
-			<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-		</div>
-		</div>
-
-		<footer class="footer">
-			<p>&copy; 2016 Company, Inc.</p>
-		</footer>
-
-	</div> <!-- /container -->
+		<h4>Subheading</h4>
+		<p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+	</div>
+</div>

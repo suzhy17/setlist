@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,8 +21,9 @@ import com.daou.setlist.web.domain.setlist.Setlist;
 @Table(name = "tb_artist")
 public class Artist {
 
-	@EmbeddedId
-	private ArtistId artistId;
+	@Id
+	@Column(length = 100, nullable = false)
+	private String artistId;
 
 	@Column(length = 100, nullable = false)
 	private String artistName;
@@ -31,7 +32,7 @@ public class Artist {
 	private String nationality;
 
 	@Column(nullable = false)
-	private LocalDateTime regDt;
+	private LocalDateTime regDate;
 
 	@OneToMany(mappedBy = "artistId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Setlist> setlists;
@@ -39,15 +40,19 @@ public class Artist {
 	protected Artist() {
 	}
 	
-	public Artist(String artistId, String artistName, String nationality, LocalDateTime regDt) {
-		this.artistId = new ArtistId(artistId);
+	public Artist(String artistId, String artistName, String nationality, LocalDateTime regDate) {
+		this.artistId = artistId;
 		this.artistName = artistName;
 		this.nationality = nationality;
-		this.regDt = regDt;
+		this.regDate = regDate;
 	}
 
+	public void setArtistId(String artistId) {
+		this.artistId = artistId;
+	}
+	
 	public String getArtistId() {
-		return artistId.getValue();
+		return artistId;
 	}
 
 	public String getArtistName() {
@@ -58,8 +63,8 @@ public class Artist {
 		return nationality;
 	}
 
-	public String getRegDt() {
-		return regDt.format(DateTimeFormatter.ISO_DATE);
+	public String getRegDate() {
+		return regDate.format(DateTimeFormatter.ISO_DATE);
 	}
 
 	public List<Setlist> getSetlists() {
@@ -73,7 +78,8 @@ public class Artist {
 			.append("artistId=").append(artistId)
 			.append(", artistName=").append(artistName)
 			.append(", nationality=").append(nationality)
-			.append(", regDt=").append(regDt);
+			.append(", regDt=").append(regDate)
+			.append(", setlists.size=").append(setlists.size());
 		return string.toString();
 	}
 }

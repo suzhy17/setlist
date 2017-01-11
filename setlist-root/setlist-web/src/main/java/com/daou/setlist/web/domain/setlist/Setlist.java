@@ -5,14 +5,10 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.daou.setlist.web.domain.artist.Artist;
-import com.daou.setlist.web.domain.artist.ArtistId;
 
 /**
  * @author suzhy
@@ -22,11 +18,13 @@ import com.daou.setlist.web.domain.artist.ArtistId;
 public class Setlist {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long setlistNo;
 
-	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "artist_id")
-	private ArtistId artistId;
+//	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
+//	@JoinColumn(name = "artist_id")
+	@Column
+	private String artistId;
 
 	@Embedded
 	private Tour tour;
@@ -37,9 +35,27 @@ public class Setlist {
 	protected Setlist() {
 	}
 	
-	public Setlist(ArtistId artistId, Tour tour, LocalDate eventDate) {
+	public Setlist(String artistId, Tour tour, LocalDate eventDate) {
 		this.artistId = artistId;
 		this.tour = tour;
 		this.eventDate = eventDate;
 	}
+
+	public Long getSetlistNo() {
+		return setlistNo;
+	}
+
+	public String getArtistId() {
+		return artistId;
+	}
+
+	public Tour getTour() {
+		return tour;
+	}
+
+	public LocalDate getEventDate() {
+		return eventDate;
+	}
+	
+	
 }

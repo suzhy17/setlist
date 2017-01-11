@@ -22,4 +22,14 @@ public class Tour {
 		this.tourName = tourName;
 		this.venue = venue;
 	}
+
+	public String getTourName() {
+		return tourName;
+	}
+
+	public String getVenue() {
+		return venue;
+	}
+	
+	
 }
