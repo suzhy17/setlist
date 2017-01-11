@@ -3,29 +3,24 @@
 
 <div class="row marketing">
 	<div class="panel panel-default">
-		<div class="panel-heading"><h4>${artist.artistName}</h4></div>
+		<div class="panel-heading"><h4>${artist.artistName} Setlist</h4></div>
 		<div class="panel-body">
-			<p>국적 : ${artist.nationality}</p>
+			<p>Venue: ${setlist.tour.venue}</p>
+			<p>Tour: ${setlist.tour.tourName}</p>
+			<p>Event Date: ${setlist.eventDate}</p>
 		</div>
-	
 		<table class="table">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>투어명</th>
-					<th>지역</th>
-					<th>공연일</th>
-					<th></th>
+					<th><h4>#</h4></th>
+					<th><h4>곡명</h4></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="item" varStatus="status" items="${artist.setlists}">
+				<c:forEach var="item" varStatus="status" items="${songs}">
 				<tr>
-					<td>${item.setlistNo}</td>
-					<td>${item.tour.tourName}</td>
-					<td>${item.tour.venue}</td>
-					<td>${item.eventDate}</td>
-					<td><button type="button" name="tracksGo" class="btn btn-default btn-sm" data-artist-id="${artist.artistId}" data-setlist-no="${item.setlistNo}">곡정보</button></td>
+					<td><h4>${item.songId.trackNo}</h4></td>
+					<td><h4>${item.subject} ${item.remark}</h4></td>
 				</tr>
 				</c:forEach>
 			</tbody>

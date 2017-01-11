@@ -35,10 +35,8 @@
 			<ul class="nav nav-pills pull-right">
 				<li role="presentation" class="active"><a href="/">Home</a></li>
 				<li role="presentation"><a href="/artists">Artists</a></li>
-				<li role="presentation"><a href="/setlists">Setlists</a></li>
-				<li role="presentation"><a href="/statistics">Statistics</a></li>
-				<li role="presentation"><a href="/statistics"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Setlist</a></li>
-				<li role="presentation"><a href="/statistics"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
+				<li role="presentation"><a href="/setlist?write"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Setlist</a></li>
+				<li role="presentation"><a href="/member?write"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Join</a></li>
 			</ul>
 		</nav>
 		<h3 class="text-muted">세트리스트.kr</h3>

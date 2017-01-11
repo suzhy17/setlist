@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.daou.setlist.web.domain.artist.Artist;
 import com.daou.setlist.web.domain.artist.ArtistRepository;
 import com.daou.setlist.web.domain.setlist.Setlist;
+import com.daou.setlist.web.domain.setlist.SetlistRepository;
+import com.daou.setlist.web.domain.setlist.Song;
+import com.daou.setlist.web.domain.setlist.SongRepository;
 
 @Controller
 public class SetlistController {
@@ -23,6 +26,12 @@ public class SetlistController {
 	
 	@Autowired
 	private ArtistRepository artistRepository;
+	
+	@Autowired
+	private SetlistRepository setlistRepository;
+	
+	@Autowired
+	private SongRepository songRepository;
 
 	@GetMapping(path = "/artists")
 	public String inquiryArtists(Model model, @RequestParam(required = false) String idxNm) {
@@ -70,5 +79,26 @@ public class SetlistController {
 		//model.addAttribute("setlists", artist.getSetlists());
 
 		return "artists/artist";
+	}
+
+	@GetMapping(path = "/artists/{artistId}/{setlistNo}")
+	public String inquirySetlist(
+			Model model,
+			@PathVariable("artistId") String artistId,
+			@PathVariable("setlistNo") Long setlistNo
+			) {
+		
+		Artist artist = artistRepository.findOne(artistId);
+		model.addAttribute("artist", artist);
+		
+		Setlist setlist = setlistRepository.findOne(setlistNo);
+		model.addAttribute("setlist", setlist);
+		
+		List<Song> songs = songRepository.findBySongIdSetlistNo(setlistNo);
+		log.debug("songs={}", songs);
+		
+		model.addAttribute("songs", songs);
+
+		return "artists/setlist";
 	}
 }
