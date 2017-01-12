@@ -9,7 +9,6 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.daou.setlist.common.interceptor.ActionUrlLoggingInterceptor;
-import com.daou.setlist.web.interceptor.AuthCheckInterceptor;
 
 @Configuration
 public class WebAppConfig {
@@ -20,14 +19,8 @@ public class WebAppConfig {
 			@Override
 			public void addInterceptors(InterceptorRegistry registry) {
 				registry.addInterceptor(new ActionUrlLoggingInterceptor()).addPathPatterns("/**");
-				registry.addInterceptor(authCheckInterceptor()).addPathPatterns("/**");
 			}
 		};
-	}
-
-	@Bean
-	public AuthCheckInterceptor authCheckInterceptor() {
-		return new AuthCheckInterceptor();
 	}
 
 	@Bean

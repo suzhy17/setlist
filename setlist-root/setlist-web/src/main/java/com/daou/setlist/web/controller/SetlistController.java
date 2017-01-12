@@ -2,7 +2,6 @@ package com.daou.setlist.web.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,13 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.daou.setlist.common.exception.EmsJsonException;
 import com.daou.setlist.common.model.JsonResult;
 import com.daou.setlist.web.domain.artist.Artist;
 import com.daou.setlist.web.domain.artist.ArtistRepository;
 import com.daou.setlist.web.domain.setlist.Setlist;
 import com.daou.setlist.web.domain.setlist.SetlistRepository;
 import com.daou.setlist.web.domain.setlist.Song;
-import com.daou.setlist.web.domain.setlist.SongId;
 import com.daou.setlist.web.domain.setlist.SongRepository;
 import com.daou.setlist.web.domain.setlist.Tour;
 import com.daou.setlist.web.service.SetlistService;
@@ -46,34 +45,28 @@ public class SetlistController {
 	@Autowired
 	private SongRepository songRepository;
 
+	private static final List<String> idxNms = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+
+	@GetMapping(path = "/")
+	public String home() {
+		return "home";
+	}
+
 	@GetMapping(path = "/artists")
 	public String inquiryArtists(Model model, @RequestParam(required = false) String idxNm) {
 		
-		List<String> idxNms = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
-		model.addAttribute("idxNms", idxNms);
-		
-		List<Artist> artists = null;
-		if (StringUtils.isNotBlank(idxNm)) {
-			artists = artistRepository.findByArtistNameStartingWithIgnoreCase(idxNm);
-		} else {
-			artists = artistRepository.findAll();
-		}
+		List<Artist> artists = setlistService.searchArtists(idxNm);
 		
 		log.debug("artists={}", artists);
 		
 		model.addAttribute("artists", artists);
+		model.addAttribute("idxNms", idxNms);
 
 		return "artists/artists";
 	}
 	
 	@GetMapping(value = "/artists", params = "write")
 	public String artistWriteForm(Model model) {
-		
-		List<Artist> artists = artistRepository.findAll();
-		log.debug("artists={}", artists);
-		
-		model.addAttribute("artists", artists);
-
 		return "artists/artist-write";
 	}
 
@@ -84,10 +77,7 @@ public class SetlistController {
 		log.debug("artist={}", artist);
 		
 		for (Setlist setlist : artist.getSetlists()) {
-			log.debug("setlist.getSetlistNo()={}", setlist.getSetlistNo());
-			log.debug("setlist.getTour().getTourName()={}", setlist.getTour().getTourName());
-			log.debug("setlist={}", setlist.getTour().getVenue());
-			log.debug("setlist={}", setlist.getEventDate());
+			log.debug("setlist [setlistNo={}, tourName={}, venue={}, eventDate={}]", setlist.getSetlistNo(), setlist.getTour().getTourName(), setlist.getTour().getVenue(), setlist.getEventDate());
 		}
 		
 		model.addAttribute("artist", artist);
@@ -99,8 +89,7 @@ public class SetlistController {
 	public String inquirySetlist(
 			Model model,
 			@PathVariable("artistId") String artistId,
-			@PathVariable("setlistNo") Long setlistNo
-			) {
+			@PathVariable("setlistNo") Long setlistNo) {
 		
 		Artist artist = artistRepository.findOne(artistId);
 		model.addAttribute("artist", artist);
@@ -109,8 +98,6 @@ public class SetlistController {
 		model.addAttribute("setlist", setlist);
 		
 		List<Song> songs = songRepository.findBySongIdSetlistNo(setlistNo);
-		log.debug("songs={}", songs);
-		
 		model.addAttribute("songs", songs);
 
 		return "artists/setlist";
@@ -127,7 +114,6 @@ public class SetlistController {
 
 	@GetMapping(path = "/setlist", params = "write")
 	public String setlistWriteForm() {
-		
 		return "artists/setlist-write";
 	}
 
@@ -140,6 +126,22 @@ public class SetlistController {
 			@RequestParam String eventDate,
 			@RequestParam(name = "subject") String[] subject,
 			@RequestParam(name = "remark") String[] remark) {
+		
+		if (StringUtils.isBlank(artistId)) {
+			throw new EmsJsonException("아티스트 ID 누락");
+		}
+		
+		if (StringUtils.isBlank(tourName)) {
+			throw new EmsJsonException("투어명 누락");
+		}
+		
+		if (StringUtils.isBlank(venue)) {
+			throw new EmsJsonException("지역 누락");
+		}
+		
+		if (StringUtils.isBlank(eventDate)) {
+			throw new EmsJsonException("공연일자 누락");
+		}
 		
 		Setlist setlist = new Setlist(artistId, new Tour(tourName, venue) , LocalDate.parse(eventDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
