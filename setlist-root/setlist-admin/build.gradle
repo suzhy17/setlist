@@ -1,0 +1,38 @@
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+jar {
+	baseName = 'setlist-admin'
+	version = '1.0.0-SNAPSHOT'
+
+	// 이부분을 추가하면 devRelease가 안먹힌다.
+	exclude "config.properties"
+}
+
+dependencies {
+	compile project(":setlist-core")
+
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.session:spring-session-data-redis')
+
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper') 
+	compile('javax.servlet:jstl')
+	compile('org.springframework.security:spring-security-taglibs')
+	compile('org.apache.tiles:tiles-jsp:3.0.5')
+	compile('net.sargue:java-time-jsptags:1.1.2')
+	compile('com.github.ulisesbocchio:jasypt-spring-boot-starter:1.9')
+
+	compile('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16')
+	
+	// 웹 리소스
+	compile('org.webjars:bootstrap:3.3.7')
+	compile('org.webjars:jquery-ui:1.12.1')
+	compile('org.webjars:font-awesome:4.7.0')
+	compile('org.webjars.bower:jquery-file-upload:9.12.6')
+	compile('org.webjars:jquery-form:3.51')
+	compile('org.webjars:jquery-blockui:2.65')
+	
+	testCompile('org.springframework.boot:spring-boot-devtools')
+	
+}

@@ -1,0 +1,12 @@
+<root>
+	<templete height="960" width="640">
+		<bg_image src="__BGIMAGE__" />
+		<texts />
+		<mappingTexts />
+		<balloons />
+		<speechbubbles />
+		<icons />
+		<shapes />
+	</templete>
+	<result result_code="_resultCode_" result_message="_resultMsg_" />
+</root>

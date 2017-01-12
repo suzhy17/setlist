@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="template-default" template="/WEB-INF/jsp/layout/template-default.jsp">
+	</definition>
+
+	<definition name="template-popup" template="/WEB-INF/jsp/layout/template-popup.jsp">
+	</definition>
+
+	<definition name="login" template="/WEB-INF/jsp/login.jsp">
+	</definition>
+
+	<definition name="*" extends="template-default">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+
+	<definition name="*/*" extends="template-default">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+
+	<definition name="*/*/*" extends="template-default">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+
+	<definition name="*/*/popup" extends="template-popup">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}-popup.jsp" />
+	</definition>
+
+	<definition name="*/*/*/popup" extends="template-popup">
+		<put-attribute name="content" value="/WEB-INF/jsp/{1}/{2}/{3}-popup.jsp" />
+	</definition>
+
+	<definition id="pageNavigation" name="pageNavigation" template="/WEB-INF/jsp/layout/pagination.jsp" />
+</tiles-definitions>
+

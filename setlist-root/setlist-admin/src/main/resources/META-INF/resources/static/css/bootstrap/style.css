@@ -1,0 +1,303 @@
+@CHARSET "UTF-8";
+#body{
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+.clear-both{
+	clear:both;
+}
+
+
+#body .input-group,
+#body  select{
+	width:200px;
+}
+#body  select.half{
+	width:98px;
+}
+@media (max-width: 991px) {
+    #body .input-group,
+	#body select{
+	    width:100%;
+	}
+}
+
+#body .checkbox,
+#body .radio{
+    margin-left:5px;
+    margin-right:5px;
+}
+.modal-body .checkbox label,
+.modal-body .radio label,
+#body .checkbox label,
+#body .radio label{
+    width:auto;
+    vertical-align: top;
+}
+#body .radio label input[type=radio]{
+    vertical-align:top;
+}
+@media (max-width: 768px) {
+    #body .radio{
+        text-align:left;
+    }
+}
+#body .pagination .glyphicon,
+.modal.delphinet .pagination .glyphicon{
+	top:0px;
+}
+
+/*테이블 최대크기*/
+#body .table-wrapper .table{
+    width:100%;
+}
+#body.full{
+    width:100%;
+}
+#body.full .table{
+    max-width:100%;
+    min-width:1800px;
+}
+#body .table{
+    max-width:100%;
+    min-width:1140px;
+}
+#body .table td.border-left{
+    border-left:1px solid #ddd
+}
+
+@media (max-width: 1921px) {
+	#body.full .table-wrapper{
+	    overflow:auto;
+	    width:100%;
+	}
+	#body .table-wrapper{
+	    overflow:auto;
+	    width:100%;
+	}
+}
+
+/**공통 상세 폼**/
+#body .detail-form h2{
+    text-align:left;
+}
+#body .detail-form .form-patition{
+    display:inline-block;
+    vertical-align: top;
+}
+#body .detail-form .form-group{
+    margin:5px 30px 5px 30px;
+    text-align:left;
+    display:block;
+}
+#body .detail-form .form-patition input[type=text],
+#body .detail-form .form-patition input[type=password],
+#body .detail-form .form-patition input[type=number],
+#body .detail-form .form-patition textarea{
+    width:200px;
+}
+#body .detail-form .form-patition label{
+    width:150px;
+}
+#body .detail-form .form-patition .checkbox,
+#body .detail-form .form-patition .radio{
+    width:auto;
+}
+#body .detail-form .form-patition .checkbox label,
+#body .detail-form .form-patition .radio label{
+    width:auto;
+    vertical-align: top;
+}
+#body .detail-form .form-patition .input-group input[type=text],
+#body .detail-form .form-patition .input-group input[type=password],
+#body .detail-form .form-patition .input-group input[type=number],
+#body .detail-form .form-patition .input-group select{
+    width:100%;
+}
+#body .detail-form .form-patition .input-group .input-group-btn{
+		width:1%;
+}
+@media (max-width: 991px) {
+	#body .detail-form .form-patition{
+		width:100%;
+	}
+	#body .detail-form .form-patition .input-group{
+		width:100%;
+	}
+	#body .detail-form .form-patition input[type=text],
+	#body .detail-form .form-patition input[type=password],
+	#body .detail-form .form-patition input[type=number],
+	#body .detail-form .form-patition select,
+	#body .detail-form .form-patition textarea{
+	    width:100%;
+	}
+}
+@media (max-width: 768px) {
+    #body .detail-form .form-group{
+	    margin:5px 0px 5px 0px;
+	}
+}
+/*테이블 검색 폼*/
+#body .search-form .input-group input{
+		width:auto;
+}
+
+@media (max-width: 991px) {
+	#body .search-form .input-group :first-child .form-control{
+		border-top-left-radius: 4px;
+  		border-bottom-left-radius: 4px;
+	}
+}
+@media (min-width: 768px) {
+	#body .search-form .input-group .input-group-btn .form-control{
+		width:auto;
+	}
+	
+	#body .search-form .input-group :first-child .form-control{
+		border-top-left-radius: 4px;
+  		border-bottom-left-radius: 4px;
+	}
+}
+@media (max-width: 768px) {
+	#body .search-form .input-group input[type=text]{
+		width:100%;
+	}
+}
+
+
+/*가입자 정보*/
+#body.member #memo-form{
+    margin-bottom:30px;
+}
+#body.member #memo-form .input-group{
+    width:100%;
+}
+#body.member #memo-form .input-group .input-group-btn{
+    width:1%;
+}
+
+/**포인트 충전**/
+#point-charge .field{
+	display:block;
+	float:none;
+	width:100%;
+}
+
+/*로그인 및 비밀번호변경 화면*/
+#body.login .form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+#body.login .form-signin .form-signin-heading,
+#body.login .form-signin .checkbox {
+  margin-bottom: 10px;
+}
+#body.login .form-signin .checkbox {
+  font-weight: normal;
+}
+#body.login .form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#body.login .form-signin .form-control:focus {
+  z-index: 2;
+}
+#body.login .form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#body.login .form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+/*로그인 및 비밀번호변경 화면 끝*/
+/*번호 리스트*/
+@media (max-width: 768px) {
+    #body.vnumbers input[type=text]{
+		width:100%;
+	}
+	#body.vnumbers select{
+		width:100%;
+	}
+}
+#body .like{
+	margin:0px;
+}
+#body #like{
+	vertical-align: middle;
+}
+#body .all-checked{
+	background:transparent;
+	border:none;
+	text-decoration: underline;
+}
+/*번호변경화면*/
+#body #now-dt{
+	cursor:pointer
+}
+/*위지윅 에디터*/
+.webnote_toolbar_basic{
+	width:24px !important;
+	height:24px !important;
+}
+.webnote_toolbar_on{
+	width:24px !important;
+	height:24px !important;
+}
+
+/*스마트 셀럭트(??)*/
+.dropdown.select .btn{
+	padding:0px 12px 0px 0px
+}
+.dropdown.select .btn .textbox{
+	border:none;
+	padding:6px 12px;
+	margin-right:8px;
+}
+.dropdown.select .dropdown-menu{
+	max-width:400px;
+	max-height:400px;
+	overflow: auto;
+}
+.dropdown.select .dropdown-menu .list{
+	width:100%;
+	white-space:nowrap;
+	cursor:pointer;
+}
+.dropdown.select .dropdown-menu .list.off{
+	display:none;
+}
+.dropdown.select .dropdown-menu .list:hover{
+	background:gray;
+}
+.dropdown.select .dropdown-menu .list .strong{
+	color:blue;
+	font-weight: bold;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.thumbnail {
+	height: 280px;
+}
+
+span.slim {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 7px 7px 0 0;
+}

@@ -1,0 +1,125 @@
+#========================================
+# 공통 Config
+#========================================
+# session-time은 Applcation.java에서 설정
+
+server:
+  port: 48080
+  error:
+    whitelabel:
+      enabled: false
+      
+logging:
+  level:
+    root: INFO
+    com.daou.ems: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+  file: "/log/ems-admin/service.log"
+
+spring:
+  mvc:
+    favicon:
+      enabled: false
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  resources:
+    static-locations:
+      - "/webjars/**"
+  redis:
+    host: 123.2.134.166
+    password: dldpadptm
+#    host: 123.2.134.61
+#    password: xpfvotm
+    port: 6379
+  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://123.2.134.43:3306/emoticon_db
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://123.2.134.43:3306/emoticon_db
+    username: ENC(wZ4I4brpOdtSfJu7xVuDeFm+FekimQV2)
+    password: ENC(QDpKLtlwZzgg4r1GScSDEtohRg7p+l+e)
+#    username: emoticon
+#    password: "rmfla(!91"
+    tomcat:
+      max-active: 10
+      max-idle: 5
+      min-idle: 2
+      max-wait: -1
+      initial-size: 5
+      remove-abandoned: true
+      remove-abandoned-timeout: 60
+      validation-query: SELECT 1 FROM DUAL
+      test-on-return: true
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+jasypt.encryptor.password: dlahxlzhs
+
+mybatis:
+  executor-type: REUSE
+  configuration:
+    cache-enabled: false
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+  type-handlers-package: org.apache.ibatis.type.LocalDateTimeTypeHandler
+  type-aliases-package: com.daou.ems.common.model, com.daou.ems.admin.model
+  mapper-locations:
+    - "classpath:/com/daou/ems/sqlmap/*.xml"
+
+---
+
+#========================================
+# 개발서버 Config
+#========================================
+
+logging:
+  level:
+    root: INFO
+    com.daou.ems: DEBUG
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+  file: "/home/SERVICE/ems-admin/log/service.log"
+
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://123.2.134.43:3306/emoticon_db
+
+---
+
+#========================================
+# 상용서버 Config
+#========================================
+
+logging:
+  level:
+    root: INFO
+    com.daou.ems: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%X{identity}] %msg %n"
+  file: "/home/SERVICE/ems-admin/log/service.log"
+
+spring:
+  profiles: prod
+  redis:
+    host: 27.102.213.21
+    password: dldpadptm
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.71.166:3306/emoticon_db
+    username: ENC(wZ4I4brpOdtSfJu7xVuDeFm+FekimQV2)
+    password: ENC(fxVB/4hC1i4TN9+n+gSyL0ec8kCEbaqA)
+#    username: emoticon
+#    password: "rmfla(!91"
+

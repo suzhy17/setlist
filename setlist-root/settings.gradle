@@ -1,2 +1,2 @@
 
-include "setlist-core", "setlist-web"
+include "setlist-core", "setlist-web", "setlist-admin"
