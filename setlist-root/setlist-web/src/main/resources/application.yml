@@ -18,9 +18,6 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: 
-    initialize: true
-    schema: classpath:/schema.sql
-#    data: classpath:/data.sql
     tomcat:
       max-active: 10
       max-idle: 5
