@@ -1,7 +1,6 @@
 package com.daou.setlist.web.domain.artist;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -63,8 +62,8 @@ public class Artist {
 		return nationality;
 	}
 
-	public String getRegDate() {
-		return regDate.format(DateTimeFormatter.ISO_DATE);
+	public LocalDateTime getRegDate() {
+		return regDate;
 	}
 
 	public List<Setlist> getSetlists() {

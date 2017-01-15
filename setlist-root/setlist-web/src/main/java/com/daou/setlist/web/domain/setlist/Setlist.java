@@ -40,6 +40,13 @@ public class Setlist {
 		this.tour = tour;
 		this.eventDate = eventDate;
 	}
+	
+	public Setlist(Long setlistNo, String artistId, Tour tour, LocalDate eventDate) {
+		this.setlistNo = setlistNo;
+		this.artistId = artistId;
+		this.tour = tour;
+		this.eventDate = eventDate;
+	}
 
 	public Long getSetlistNo() {
 		return setlistNo;

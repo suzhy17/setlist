@@ -34,19 +34,24 @@ public class SetlistService {
 	/**
 	 * 세트리스트 등록
 	 * @param setlist 세트리스트
-	 * @param subject 제목
-	 * @param remark 비고
+	 * @param subjects 제목
+	 * @param remarks 비고
 	 */
-	public void registerSetlist(Setlist setlist, String[] subject, String[] remark) {
+	public void registerSetlist(Setlist setlist, String[] subjects, String[] remarks) {
 		
 		log.info("세트리스트 등록");
 		
 		setlistRepository.save(setlist);
 
 		List<Song> songs = new ArrayList<>();
+		
 		int trackNo = 1;
-		for (int i = 0; i < subject.length; i++) {
-			songs.add(new Song(new SongId(setlist.getSetlistNo(), trackNo++), subject[i], remark[i]));
+		int idx = 0;
+		for (String subject : subjects) {
+			if (StringUtils.isNotBlank(subject)) {
+				songs.add(new Song(new SongId(setlist.getSetlistNo(), trackNo++), subject, remarks[idx]));
+			}
+			idx++;
 		}
 
 		for (Song song : songs) {
