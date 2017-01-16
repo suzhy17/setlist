@@ -35,12 +35,17 @@ spring:
 #    generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   h2:
     console:
       enabled: true
       path: /myconsole
       
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:/ehcache.xml
+    
 jasypt.encryptor.password: dlahxlzhs
 
 mybatis:

@@ -38,7 +38,7 @@ public class TestController {
 	@ResponseBody
 	public void save() {
 		List<Artist> artists = artistRepository.findAll();
-		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("src/main/resources/db-data/Artist.csv"))) {
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("db-data/Artist.csv"))) {
 			artists.parallelStream().forEach(artist -> {
 				StringBuffer line = new StringBuffer();
 				line.append(artist.getArtistId()).append("\t")
@@ -56,7 +56,7 @@ public class TestController {
 		}
 
 		List<Setlist> setlists = setlistRepository.findAll();
-		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("src/main/resources/db-data/Setlist.csv"))) {
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("db-data/Setlist.csv"))) {
 			setlists.parallelStream().forEach(setlist -> {
 				StringBuffer line = new StringBuffer();
 				line.append(setlist.getSetlistNo()).append("\t")
@@ -75,7 +75,7 @@ public class TestController {
 		}
 
 		List<Song> songs = songRepository.findAll();
-		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("src/main/resources/db-data/Song.csv"))) {
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("db-data/Song.csv"))) {
 			songs.parallelStream().forEach(song -> {
 				// 1	1		Psycho
 				StringBuffer line = new StringBuffer();

@@ -1,5 +1,7 @@
 package com.daou.setlist.web.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.daou.setlist.common.exception.EmsJsonException;
 import com.daou.setlist.web.domain.artist.Artist;
 import com.daou.setlist.web.domain.artist.ArtistRepository;
 import com.daou.setlist.web.domain.setlist.Setlist;
@@ -16,6 +20,7 @@ import com.daou.setlist.web.domain.setlist.SetlistRepository;
 import com.daou.setlist.web.domain.setlist.Song;
 import com.daou.setlist.web.domain.setlist.SongId;
 import com.daou.setlist.web.domain.setlist.SongRepository;
+import com.daou.setlist.web.domain.setlist.Tour;
 
 @Service
 public class SetlistService {
@@ -37,9 +42,16 @@ public class SetlistService {
 	 * @param subjects 제목
 	 * @param remarks 비고
 	 */
-	public void registerSetlist(Setlist setlist, String[] subjects, String[] remarks) {
+	public void registerSetlist(String artistId, String tourName, String venue, String eventDate, String[] subjects, String[] remarks) {
 		
 		log.info("세트리스트 등록");
+
+		Setlist setlist = new Setlist(artistId, new Tour(tourName, venue) , LocalDate.parse(eventDate, DateTimeFormatter.ISO_DATE));
+
+		Artist artist = artistRepository.findOne(setlist.getArtistId());
+		if (artist == null) {
+			throw new EmsJsonException("해당하는 아티스트가 없습니다.");
+		}
 		
 		setlistRepository.save(setlist);
 
@@ -64,6 +76,7 @@ public class SetlistService {
 	 * @param artistName 아티스트명 앞자리
 	 * @return
 	 */
+//	@Cacheable(cacheNames = "artists", key = "#artistName")
 	public List<Artist> searchArtists(String artistName) {
 		if (StringUtils.isNotBlank(artistName)) {
 			return artistRepository.findByArtistNameStartingWithIgnoreCase(artistName);

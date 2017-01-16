@@ -31,9 +31,9 @@ import com.daou.setlist.web.domain.setlist.Tour;
  */
 @ActiveProfiles(profiles = {"", "default"})
 @Component
-public class DbDataImport implements CommandLineRunner {
+public class TestDataDbImport implements CommandLineRunner {
 
-	private static final Logger log = LoggerFactory.getLogger(DbDataImport.class);
+	private static final Logger log = LoggerFactory.getLogger(TestDataDbImport.class);
 
 	@Autowired
 	private ArtistRepository artistRepository;
@@ -49,7 +49,7 @@ public class DbDataImport implements CommandLineRunner {
 
 		log.info("아티스트 로드");
 		
-		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/db-data/Artist.csv"))) {
+		try (Stream<String> stream = Files.lines(Paths.get("db-data/Artist.csv"))) {
 
 			stream.forEach(str -> {
 				if (StringUtils.isBlank(str)) {
@@ -66,7 +66,7 @@ public class DbDataImport implements CommandLineRunner {
 
 		log.info("세트리스트 로드");
 		
-		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/db-data/Setlist.csv"))) {
+		try (Stream<String> stream = Files.lines(Paths.get("db-data/Setlist.csv"))) {
 
 			stream.forEach(str -> {
 				if (StringUtils.isBlank(str)) {
@@ -84,7 +84,7 @@ public class DbDataImport implements CommandLineRunner {
 
 		log.info("곡 로드");
 		
-		try (Stream<String> stream = Files.lines(Paths.get("src/main/resources/db-data/Song.csv"))) {
+		try (Stream<String> stream = Files.lines(Paths.get("db-data/Song.csv"))) {
 
 			stream.forEach(str -> {
 				if (StringUtils.isBlank(str)) {

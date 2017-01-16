@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -124,8 +125,8 @@ public class SetlistController {
 			@RequestParam String tourName,
 			@RequestParam String venue,
 			@RequestParam String eventDate,
-			@RequestParam(name = "subject") String[] subject,
-			@RequestParam(name = "remark") String[] remark) {
+			@RequestParam(name = "subject") String[] subjects,
+			@RequestParam(name = "remark") String[] remarks) {
 		
 		if (StringUtils.isBlank(artistId)) {
 			throw new EmsJsonException("아티스트 ID 누락");
@@ -143,9 +144,7 @@ public class SetlistController {
 			throw new EmsJsonException("공연일자 누락");
 		}
 		
-		Setlist setlist = new Setlist(artistId, new Tour(tourName, venue) , LocalDate.parse(eventDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-		setlistService.registerSetlist(setlist, subject, remark);
+		setlistService.registerSetlist(artistId, tourName, venue, eventDate, subjects, remarks);
 		
 		return new JsonResult();
 	}
